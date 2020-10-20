@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    public GameObject laserPrefabs;
+    public float fireRate = 0.3f;
+    public float nextFire;
     [SerializeField]
     private float speed = 6;
     void Start()
@@ -13,6 +16,14 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {
         SpaceMovement();
+        if (Input.GetMouseButton(0))
+        {
+            if (Time.time > nextFire)
+            {
+                nextFire = Time.time + fireRate;
+                Instantiate(laserPrefabs, transform.position + new Vector3(0, 1.3f, 0), Quaternion.identity);
+            }
+        }
     }
     private void SpaceMovement()
     {

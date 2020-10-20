@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public float fireRate = 0.3f;//секунд между выстрелами(не испольуется)
     public float health = 10;
     public int score = 100;//очки за уничтожние этого корабля
-    private BoundsCheck bnbCheck;
+    protected BoundsCheck bnbCheck;
     private void Awake()
     {
         bnbCheck = GetComponent<BoundsCheck>();

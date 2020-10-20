@@ -65,10 +65,15 @@
   <ItemGroup>
     <Compile Include="Assets\__Scripts\BoundsCheck.cs" />
     <Compile Include="Assets\__Scripts\Enemy.cs" />
+    <Compile Include="Assets\__Scripts\Enemys_1.cs" />
+    <Compile Include="Assets\__Scripts\Enemys_2.cs" />
+    <Compile Include="Assets\__Scripts\Enemys_3.cs" />
+    <Compile Include="Assets\__Scripts\Enemys_4.cs" />
     <Compile Include="Assets\__Scripts\Hero.cs" />
     <Compile Include="Assets\__Scripts\Main.cs" />
     <Compile Include="Assets\__Scripts\Projetile.cs" />
     <Compile Include="Assets\__Scripts\Shield.cs" />
+    <Compile Include="Assets\__Scripts\Weapon.cs" />
     <None Include="Assets\_Materials\UnlitAlpha.shader" />
     <Reference Include="UnityEngine">
       <HintPath>E:/unity/2019.3.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

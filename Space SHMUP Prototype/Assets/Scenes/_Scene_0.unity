@@ -611,9 +611,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabEmemis:
-  - {fileID: 7651815654149737687, guid: f98888d0730fc2f458a3127c44fddf96, type: 3}
+  - {fileID: 137507367519397477, guid: c95dda2b1f2509445ba5a8503b2fbea5, type: 3}
   enemySpawnPerSecond: 0.5
   enemyDefaulPadding: 1.5
+  weaponDefinitions:
+  - type: 1
+    letter: B
+    color: {r: 1, g: 1, b: 1, a: 1}
+    projectilePrefab: {fileID: 6007733155274371489, guid: 53e3c23b096a6ee47bb65eb984a18d0f,
+      type: 3}
+    projectileColor: {r: 1, g: 1, b: 1, a: 1}
+    damageOnHit: 1
+    continuousDamage: 0
+    delayBetweenShots: 0.2
+    velocity: 50
+  - type: 2
+    letter: S
+    color: {r: 1, g: 0, b: 0, a: 1}
+    projectilePrefab: {fileID: 6007733155274371489, guid: 53e3c23b096a6ee47bb65eb984a18d0f,
+      type: 3}
+    projectileColor: {r: 1, g: 0, b: 0, a: 1}
+    damageOnHit: 1
+    continuousDamage: 0
+    delayBetweenShots: 0.4
+    velocity: 50
+  - type: 6
+    letter: O
+    color: {r: 0, g: 1, b: 0, a: 1}
+    projectilePrefab: {fileID: 0}
+    projectileColor: {r: 1, g: 1, b: 1, a: 1}
+    damageOnHit: 0
+    continuousDamage: 0
+    delayBetweenShots: 0
+    velocity: 0
 --- !u!1 &1060027732
 GameObject:
   m_ObjectHideFlags: 0
