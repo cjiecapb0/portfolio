@@ -19,7 +19,7 @@ public class Shield : MonoBehaviour
         //прочитать текущую мощность защитного поля из объекта-одиночки Hero
         int currLevel = Mathf.FloorToInt(Hero.S.shieldLevel);
         //если она отличается от levelShown...
-        if (levelShown!=currLevel)
+        if (levelShown != currLevel)
         {
             levelShown = currLevel;
             //Скорректировать смещение в текстуре, чтобы отобразить поле с другой мощностью

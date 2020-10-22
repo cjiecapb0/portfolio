@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class Hero : MonoBehaviour
     public float gameRestartDelay = 2f;
     public GameObject projetilePrefab;
     public float projetileSpeed = 40;
+    public Weapon[] weapons;
     [Header("Set Dynamically")]
     [SerializeField]
     private float _shieldLevel = 1;
@@ -22,13 +24,16 @@ public class Hero : MonoBehaviour
     public delegate void WeaponFireDelegate();
     //Создать поле типа WeaponFireDelegate с именем fireDelegate.
     public WeaponFireDelegate fireDelegate;
-    private void Awake()
+    private void Start()
     {
         if (S == null)
             S = this;//сохранить ссылку на одиночку
         else
             Debug.LogError("Hero.Awake() - Attemted to assign second Hero.S");
-        fireDelegate += TempFire;
+        //fireDelegate += TempFire;
+        //Очистить массив weapons и начал игру с 1 бластером
+        ClearWeapons();
+        weapons[0].SetType(WeaponType.blaster);
     }
     private void Update()
     {
@@ -63,7 +68,6 @@ public class Hero : MonoBehaviour
     {
         Transform rootT = other.gameObject.transform.root;
         GameObject go = rootT.gameObject;
-        //print("Triggered: " + go.name);
         //гарантировать невозможность повторного столкновения с тем же объектом
         if (go == lastTriggerGo)
             return;
@@ -73,8 +77,41 @@ public class Hero : MonoBehaviour
             shieldLevel--;
             Destroy(go);
         }
+        else if (go.tag == "PowerUp")
+        {
+            //Если защитное пле столкнулось с бонусом
+            AbsorbPowerUp(go);
+        }
         else
             print("Triggered by non-Emery: " + go.name);
+    }
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUp pu = go.GetComponent<PowerUp>();
+        switch (pu.type)
+        {
+            case WeaponType.shield:
+                shieldLevel++;
+                break;
+            default:
+                if (pu.type == weapons[0].type)
+                {
+                    Weapon w = GetEmptyWeaponSlot();
+                    if (w != null)
+                    {
+                        //Установить в pu.type
+                        w.SetType(pu.type);
+                    }
+                }
+                else
+                {
+                    //Если оружие другого типа
+                    ClearWeapons();
+                    weapons[0].SetType(pu.type);
+                }
+                break;
+        }
+        pu.AbsorbedBy(this.gameObject);
     }
     public float shieldLevel
     {
@@ -86,9 +123,25 @@ public class Hero : MonoBehaviour
         {
             _shieldLevel = Mathf.Min(value, 4);
             if (value < 0)
+            {
                 Destroy(this.gameObject);
-            //сообщить объекту Main.S о необходимости перезапустить игру
-            Main.S.DelayedRestart(gameRestartDelay);
+                //сообщить объекту Main.S о необходимости перезапустить игру
+                Main.S.DelayedRestart(gameRestartDelay);
+            }
         }
+    }
+    Weapon GetEmptyWeaponSlot()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].type == WeaponType.none)
+                return (weapons[i]);
+        }
+        return (null);
+    }
+    void ClearWeapons()
+    {
+        foreach (Weapon w in weapons)
+            w.SetType(WeaponType.none);
     }
 }
