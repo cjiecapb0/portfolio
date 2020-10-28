@@ -8,6 +8,10 @@ public class PlayerControls : MonoBehaviour
     public float fireRate = 0.3f;
     public float nextFire;
     [SerializeField]
+    private GameObject playerExplosionPrefab;
+    [SerializeField]
+    private int playerLives = 5;
+    [SerializeField]
     private float speed = 6;
     void Start()
     {
@@ -23,6 +27,15 @@ public class PlayerControls : MonoBehaviour
                 nextFire = Time.time + fireRate;
                 Instantiate(laserPrefabs, transform.position + new Vector3(0, 1.3f, 0), Quaternion.identity);
             }
+        }
+    }
+    public void LifeSubstraction()
+    {
+        playerLives--;
+        if (playerLives<1)
+        {
+            Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
     }
     private void SpaceMovement()

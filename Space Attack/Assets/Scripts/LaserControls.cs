@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaserControls : MonoBehaviour
 {
-    public int laserSpeed = 6;
+    private int laserSpeed = 6;
     void Start()
     {
         
