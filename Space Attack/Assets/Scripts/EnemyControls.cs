@@ -7,9 +7,11 @@ public class EnemyControls : MonoBehaviour
     private int speed = 3;
     [SerializeField]
     private GameObject enemyExlosionPrefab;
+    [SerializeField]
+    private AudioClip explosionSound;
     private void Start()
     {
-        
+
     }
     private void Update()
     {
@@ -24,7 +26,8 @@ public class EnemyControls : MonoBehaviour
         if (collision.tag == "Laser")
         {
             Destroy(collision.gameObject);
-            Instantiate(enemyExlosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(enemyExlosionPrefab, Camera.main.transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position, 1f);
             Destroy(this.gameObject);
         }
         else if (collision.tag == "Player")
@@ -32,7 +35,8 @@ public class EnemyControls : MonoBehaviour
             PlayerControls playerControls = collision.GetComponent<PlayerControls>();
             if (playerControls != null)
                 playerControls.LifeSubstraction();
-            Instantiate(enemyExlosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(enemyExlosionPrefab, Camera.main.transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position, 1f);
             Destroy(this.gameObject);
         }
     }

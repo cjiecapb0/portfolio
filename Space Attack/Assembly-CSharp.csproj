@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\EnemyControls.cs" />
     <Compile Include="Assets\Scripts\LaserControls.cs" />
     <Compile Include="Assets\Scripts\PlayerControls.cs" />
+    <Compile Include="Assets\Scripts\UseCoroutines.cs" />
     <None Include="Assets\Materials\Shaders\StarNest.shader" />
     <Reference Include="UnityEngine">
       <HintPath>E:/unity/2019.3.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

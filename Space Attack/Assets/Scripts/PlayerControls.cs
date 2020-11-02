@@ -13,9 +13,12 @@ public class PlayerControls : MonoBehaviour
     private int playerLives = 5;
     [SerializeField]
     private float speed = 6;
+    [SerializeField]
+    private AudioSource laserShot;
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        laserShot = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -24,6 +27,7 @@ public class PlayerControls : MonoBehaviour
         {
             if (Time.time > nextFire)
             {
+                laserShot.Play();
                 nextFire = Time.time + fireRate;
                 Instantiate(laserPrefabs, transform.position + new Vector3(0, 1.3f, 0), Quaternion.identity);
             }
