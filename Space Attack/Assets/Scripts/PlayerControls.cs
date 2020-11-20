@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -36,10 +37,11 @@ public class PlayerControls : MonoBehaviour
     public void LifeSubstraction()
     {
         playerLives--;
-        if (playerLives<1)
+        if (playerLives < 1)
         {
             Instantiate(playerExplosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+            SceneManager.LoadScene("GameOver");
         }
     }
     private void SpaceMovement()

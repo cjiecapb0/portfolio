@@ -26,7 +26,7 @@ public class EnemyControls : MonoBehaviour
         if (collision.tag == "Laser")
         {
             Destroy(collision.gameObject);
-            Instantiate(enemyExlosionPrefab, Camera.main.transform.position, Quaternion.identity);
+            Instantiate(enemyExlosionPrefab, transform.position, Quaternion.identity);
             AudioSource.PlayClipAtPoint(explosionSound, transform.position, 1f);
             Destroy(this.gameObject);
         }
@@ -35,7 +35,7 @@ public class EnemyControls : MonoBehaviour
             PlayerControls playerControls = collision.GetComponent<PlayerControls>();
             if (playerControls != null)
                 playerControls.LifeSubstraction();
-            Instantiate(enemyExlosionPrefab, Camera.main.transform.position, Quaternion.identity);
+            Instantiate(enemyExlosionPrefab, transform.position, Quaternion.identity);
             AudioSource.PlayClipAtPoint(explosionSound, transform.position, 1f);
             Destroy(this.gameObject);
         }
