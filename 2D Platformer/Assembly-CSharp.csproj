@@ -63,22 +63,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AdvancedAirPatrol.cs" />
+    <Compile Include="Assets\Scripts\Background.cs" />
+    <Compile Include="Assets\Scripts\Beetle.cs" />
     <Compile Include="Assets\Scripts\Bomber.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Button.cs" />
     <Compile Include="Assets\Scripts\CameraPos.cs" />
+    <Compile Include="Assets\Scripts\Destroyable.cs" />
+    <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Finish.cs" />
     <Compile Include="Assets\Scripts\Main.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Water.cs" />
     <Compile Include="Assets\Scripts\airPatrol.cs" />
     <Compile Include="Assets\Scripts\groundPatrol.cs" />
+    <None Include="Assets\UI\gameicons\Spritesheet\sheet_white1x.xml" />
+    <None Include="Assets\UI\Spritesheet\greenSheet.xml" />
+    <None Include="Assets\UI\gameicons\Spritesheet\sheet_black1x.xml" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_tiles.xml" />
+    <None Include="Assets\UI\kenney_fontpackage\License.txt" />
     <None Include="Assets\platformer-pack-redux-360-assets\License.txt" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_hud.xml" />
+    <None Include="Assets\UI\gameicons\Spritesheet\sheet_black2x.xml" />
+    <None Include="Assets\UI\Spritesheet\yellowSheet.xml" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_items.xml" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_enemies.xml" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_complete.xml" />
+    <None Include="Assets\UI\Spritesheet\greySheet.xml" />
+    <None Include="Assets\UI\Spritesheet\blueSheet.xml" />
+    <None Include="Assets\UI\gameicons\Spritesheet\sheet_white2x.xml" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_ground.xml" />
+    <None Include="Assets\UI\gameicons\license.txt" />
     <None Include="Assets\platformer-pack-redux-360-assets\Spritesheets\spritesheet_players.xml" />
+    <None Include="Assets\UI\license.txt" />
+    <None Include="Assets\UI\Spritesheet\redSheet.xml" />
     <Reference Include="UnityEngine">
       <HintPath>E:/unity/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

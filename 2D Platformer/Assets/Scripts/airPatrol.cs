@@ -18,13 +18,13 @@ public class airPatrol : MonoBehaviour
     void Update()
     {
         if (CanGo)
-            transform.position = Vector3.MoveTowards(transform.position, point1.position, speed * Time.deltaTime);
-        
-        if (transform.position == point1.position)
+            transform.position = Vector3.MoveTowards(transform.position, point2.position, speed * Time.deltaTime);
+
+        if (transform.position == point2.position)
         {
-            Transform t = point1;
-            point1 = point2;
-            point2 = t;
+            Transform t = point2;
+            point2 = point1;
+            point1 = t;
             CanGo = false;
             StartCoroutine(Waiting());
         }
@@ -32,6 +32,10 @@ public class airPatrol : MonoBehaviour
     IEnumerator Waiting()
     {
         yield return new WaitForSeconds(waitTime);
+        if (transform.rotation.y == 0)
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        else
+            transform.eulerAngles = new Vector3(0, 0, 0);
         CanGo = true;
     }
 }

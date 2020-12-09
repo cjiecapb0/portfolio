@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Key
+  - Door
+  - Ladder
+  - Trampoline
+  - MarkBox
+  - Coins
+  - Heart
+  - Mushroom
+  - BlueGem
+  - GreenGem
   layers:
   - Default
   - TransparentFX
