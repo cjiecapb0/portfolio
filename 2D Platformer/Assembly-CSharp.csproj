@@ -68,7 +68,7 @@
     <Compile Include="Assets\Scripts\Beetle.cs" />
     <Compile Include="Assets\Scripts\Bomber.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Scripts\Button.cs" />
+    <Compile Include="Assets\Scripts\Buttons.cs" />
     <Compile Include="Assets\Scripts\CameraPos.cs" />
     <Compile Include="Assets\Scripts\Destroyable.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />

@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpHeight = 5f;
     private int curHp;
     private int coins = 0;
     private int maxHp = 3;
-    public float speed = 5f;
-    public float jumpHeight = 5f;
     private int gemCount = 0;
+    private float hitTimer = 0f;
 
     public int Coins => coins;
     public int CurHP => curHp;
@@ -18,11 +20,12 @@ public class Player : MonoBehaviour
     private Animator animator;
     private CapsuleCollider2D capsuleCollider2D;
     private SpriteRenderer spriteRenderer;
-    public Transform groundCheck;
-    public GameObject blueGem, greenGem;
     private SpriteRenderer spriteBlueGem;
     private SpriteRenderer spriteGreenGem;
-    public Main main;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private GameObject blueGem, greenGem;
+    [SerializeField] private Main main;
+    [SerializeField] private Image playerCountDown;
 
     private bool isGrounded;
     private bool isHit;
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
         spriteBlueGem = blueGem.GetComponent<SpriteRenderer>();
         spriteGreenGem = greenGem.GetComponent<SpriteRenderer>();
         curHp = maxHp;
+        playerCountDown.fillAmount = 0f;
     }
     private void Update()
     {
@@ -175,7 +179,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ladder")
+        if (collision.gameObject.CompareTag("Ladder"))
         {
             isClimding = true;
             rb.bodyType = RigidbodyType2D.Kinematic;
@@ -189,6 +193,18 @@ public class Player : MonoBehaviour
                 transform.Translate(Vector3.up * Input.GetAxis("Vertical") * speed * 0.5f * Time.deltaTime);
             }
         }
+        if (collision.gameObject.CompareTag("Lava"))
+        {
+            hitTimer += Time.deltaTime;
+            if (hitTimer >= 3f)
+            {
+                hitTimer = 0f;
+                playerCountDown.fillAmount = 1f;
+                RecountHp(-1);
+            }
+            else
+                playerCountDown.fillAmount = 1 - (hitTimer / 3f);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -196,6 +212,11 @@ public class Player : MonoBehaviour
         {
             isClimding = false;
             rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+        if (collision.gameObject.CompareTag("Lava"))
+        {
+            hitTimer = 0f;
+            playerCountDown.fillAmount = 0f;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)

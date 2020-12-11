@@ -3,7 +3,14 @@ guid: ee3741f3f1c02fc46bba0336c4f6117c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - player: {instanceID: 0}
+  - coinText: {instanceID: 0}
+  - isLife: {fileID: 21300000, guid: 1c2a09bd0c254564e86291d4151418d0, type: 3}
+  - nonLife: {fileID: 21300000, guid: 9d3c12b5aae3b7b478fa73e023b3bbf7, type: 3}
+  - pauseScreen: {instanceID: 0}
+  - winScreen: {instanceID: 0}
+  - loseScreen: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

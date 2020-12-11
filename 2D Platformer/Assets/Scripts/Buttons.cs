@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Buttons : MonoBehaviour
 {
     public GameObject[] blocks;
     public Sprite buttonDown;
