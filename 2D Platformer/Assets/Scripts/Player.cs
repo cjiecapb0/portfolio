@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private GameObject blueGem, greenGem;
     [SerializeField] private Main main;
+    [SerializeField] private Inventory inventory;
     [SerializeField] private Image playerCountDown;
 
     private bool isGrounded;
@@ -134,6 +135,7 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
             key = true;
+            inventory.Add_key();
         }
         if (collision.gameObject.CompareTag("Door"))
         {
@@ -154,7 +156,8 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Heart"))
         {
             Destroy(collision.gameObject);
-            RecountHp(1);
+            //RecountHp(1);
+            inventory.Add_hp();
         }
         if (collision.gameObject.CompareTag("Mushroom"))
         {
@@ -164,12 +167,14 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("BlueGem"))
         {
             Destroy(collision.gameObject);
-            StartCoroutine(NoHit());
+            //StartCoroutine(NoHit());
+            inventory.Add_bg();
         }
         if (collision.gameObject.CompareTag("GreenGem"))
         {
             Destroy(collision.gameObject);
-            StartCoroutine(SpeedBonus());
+            //StartCoroutine(SpeedBonus());
+            inventory.Add_gg();
         }
     }
     IEnumerator TPwait()
@@ -278,5 +283,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(time);
         if (spr.color.a > 0)
             StartCoroutine(Invis(spr, time));
+    }
+    public void BlueGem()
+    {
+        StartCoroutine(NoHit());
+    }
+    public void GreenGem()
+    {
+        StartCoroutine(SpeedBonus());
     }
 }

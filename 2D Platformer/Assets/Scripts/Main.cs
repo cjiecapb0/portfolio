@@ -15,13 +15,16 @@ public class Main : MonoBehaviour
     [SerializeField] private GameObject pauseScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject loseScreen;
+    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private TimeWork timeWork;
     [SerializeField] private float countDown;
     private float timer = 0f;
     private Scene activeScene;
+    private Inventory inventory;
 
     private void Start()
     {
+        inventory = GetComponent<Inventory>();
         activeScene = SceneManager.GetActiveScene();
         if ((int)timeWork == 2)
             timer = countDown;
@@ -78,12 +81,16 @@ public class Main : MonoBehaviour
             PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") + player.Coins);
         else
             PlayerPrefs.SetInt("coins", player.Coins);
+        inventoryPanel.SetActive(false);
+        inventory.RecountItems();
     }
     public void Lose()
     {
         Time.timeScale = 0f;
         player.enabled = false;
         loseScreen.SetActive(true);
+        inventoryPanel.SetActive(false);
+        inventory.RecountItems();
     }
     public void MenuLvl()
     {
