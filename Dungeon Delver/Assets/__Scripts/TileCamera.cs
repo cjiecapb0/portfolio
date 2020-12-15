@@ -9,6 +9,7 @@ public class TileCamera : MonoBehaviour
     static public Sprite[] SPRITES;
     static public Transform TILE_ANCHOR;
     static public Tile[,] TILES;
+    static public string COLLISIONS;
 
     [Header("Set in Inspector")]
     public TextAsset mapData;
@@ -18,6 +19,7 @@ public class TileCamera : MonoBehaviour
 
     private void Awake()
     {
+        COLLISIONS = Utils.RemoveLineEndings(mapCollisions.text);
         LoadMap();
     }
     public void LoadMap()
@@ -79,7 +81,7 @@ public class TileCamera : MonoBehaviour
     static public int GET_MAP(float x, float y)
     {
         int tX = Mathf.RoundToInt(x);
-        int tY = Mathf.RoundToInt(y-0.25f);
+        int tY = Mathf.RoundToInt(y - 0.25f);
         return GET_MAP(tX, tY);
     }
     static public void SET_MAP(int x, int y, int tNum)

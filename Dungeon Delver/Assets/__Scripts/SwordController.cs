@@ -14,7 +14,7 @@ public class SwordController : MonoBehaviour
     }
     private void Update()
     {
-        transform.rotation = Quaternion.Euler(0, 0, 90 * dray.Facing);
+        transform.rotation = Quaternion.Euler(0, 0, 90 * dray.GetFacing());
         sword.SetActive(dray.Mode == Dray.eMode.attack);
     }
 }
