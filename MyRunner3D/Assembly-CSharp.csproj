@@ -63,10 +63,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\MoveRoad.cs" />
-    <Compile Include="Assets\Scripts\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Loading.cs" />
+    <Compile Include="Assets\Scripts\Parametrs.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\RoadController.cs" />
+    <Compile Include="Assets\Scripts\RoadBlock.cs" />
+    <Compile Include="Assets\Scripts\RoadSpawner.cs" />
+    <Compile Include="Assets\Scripts\RotateItem.cs" />
+    <Compile Include="Assets\Scripts\SceneController.cs" />
+    <Compile Include="Assets\Scripts\SettingsController.cs" />
+    <Compile Include="Assets\Scripts\SwipeController.cs" />
     <Reference Include="UnityEngine">
       <HintPath>E:/unity/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -601,15 +608,6 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -624,9 +622,6 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>E:/unity/Prototype/portfolio/MyRunner3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>

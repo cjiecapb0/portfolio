@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - Wall
-  - Obstacle
+  - Trap
+  - DeathPlane
+  - Coin
   layers:
   - Default
   - TransparentFX

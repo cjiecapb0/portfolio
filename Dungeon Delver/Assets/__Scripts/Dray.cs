@@ -4,28 +4,49 @@ using UnityEngine;
 
 public class Dray : MonoBehaviour, IFacingMover, IKeyMaster
 {
-    public enum eMode { idle, move, attack, transition }
+    public enum EMode { idle, move, attack, transition, knockback }
 
     [Header("Set in Inspactor")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float attackDuration = 0.25f;//Продолжительность атаки в секундах
+
     [SerializeField] private float attackDelay = 0.5f;//Задержка между атаками
     [SerializeField] private float transitionDelay = 0.5f;//Задержка перехода между комнатами
+
+    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private float knockbackSpeed = 10f;
+    [SerializeField] private float knockbackDuration = 0.25f;
+    [SerializeField] private float invincibleDuration = 0.5f;
 
     [Header("Set Dynamically")]
     [SerializeField] private int dirHeld = -1; //Направление соответсвующее удериваемой клавиши
     [SerializeField] private int numKeys = 0;
+    [SerializeField] private bool invincible = false;
+    [SerializeField] private bool hasGrappler = false;
+    [SerializeField] private Vector3 lastSafeLoc;
+    [SerializeField] private int lastSafeFacing;
+    [SerializeField] private int _health;
+    public int Health
+    {
+        get { return _health; }
+        set { _health = value; }
+    }
     private int facing = 1; //Направление движения Дрей
-    private eMode mode = eMode.idle;
+    private EMode mode = EMode.idle;
 
     private float timeAtkDone = 0;
     private float timeAtkNext = 0;
 
     private float transitionDone = 0;
     private Vector2 transitionPos;
+    private float knockbackDone = 0;
+    private float invincibleDone = 0;
+    private Vector3 knockbackVel;
 
-    public eMode Mode => mode;
+    public EMode Mode => mode;
+    public bool HasGrappler => hasGrappler;
 
+    private SpriteRenderer sRend;
     private Rigidbody rigid;
     private Animator anim;
     private InRoom inRm;
@@ -36,20 +57,33 @@ public class Dray : MonoBehaviour, IFacingMover, IKeyMaster
         KeyCode.RightArrow, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow};
     private void Awake()
     {
+        sRend = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         inRm = GetComponent<InRoom>();
+        Health = maxHealth;
+        lastSafeLoc = transform.position;//начальная позиция безопасна.
+        lastSafeFacing = facing;
     }
     private void Update()
     {
-        if (mode == eMode.transition)
+        //Проверить остояние неуязвимости и необходимость выполнить отбрасывание
+        if (invincible && Time.time > invincibleDone) invincible = false;
+        sRend.color = invincible ? Color.red : Color.white;
+        if(mode == EMode.knockback)
+        {
+            rigid.velocity = knockbackVel;
+            if (Time.time < knockbackDone) return;
+        }
+
+        if (mode == EMode.transition)
         {
             rigid.velocity = Vector3.zero;
             anim.speed = 0;
             roomPos = transitionPos;//Оставить Дрея на месте
             if (Time.time < transitionDone) return;
             //Следующая строка выполнится, только если Time.time>=transitionDone
-            mode = eMode.idle;
+            mode = EMode.idle;
         }
         //------Обработка ввода с клавиатуры и управление режимами eMode------
         dirHeld = -1;
@@ -60,38 +94,38 @@ public class Dray : MonoBehaviour, IFacingMover, IKeyMaster
         //Нажата клавиша атаки
         if (Input.GetKeyDown(KeyCode.Z) && Time.time >= timeAtkNext)
         {
-            mode = eMode.attack;
+            mode = EMode.attack;
             timeAtkDone = Time.time + attackDuration;
             timeAtkNext = Time.time + attackDelay;
         }
         //Завершить атаку, если время истекло
         if (Time.time >= timeAtkDone)
-            mode = eMode.idle;
+            mode = EMode.idle;
 
         //Выбрать правильный режим. если Дрей не атакует
-        if (mode != eMode.attack)
+        if (mode != EMode.attack)
         {
             if (dirHeld == -1)
-                mode = eMode.idle;
+                mode = EMode.idle;
             else
             {
                 facing = dirHeld;
-                mode = eMode.move;
+                mode = EMode.move;
             }
         }
         //-----Действие в текущем режиме----
         Vector3 vel = Vector3.zero;
         switch (mode)
         {
-            case eMode.attack:
+            case EMode.attack:
                 anim.CrossFade("Dray_Attack_" + facing, 0);
                 anim.speed = 0;
                 break;
-            case eMode.idle:
+            case EMode.idle:
                 anim.CrossFade("Dray_Walk_" + facing, 0);
                 anim.speed = 0;
                 break;
-            case eMode.move:
+            case EMode.move:
                 vel = directions[dirHeld];
                 anim.CrossFade("Dray_Walk_" + facing, 0);
                 anim.speed = 1;
@@ -100,7 +134,7 @@ public class Dray : MonoBehaviour, IFacingMover, IKeyMaster
         rigid.velocity = vel * speed;
     }
     private void LateUpdate()
-    {
+    {   
         //Получиь координаты узла сетки, с размером ячейки в половину единицыб ближайнего к данному персонажу
         Vector2 rPos = GetRoomPosOnGrid(0.5f);//Размер ячейки в пол-единицы
         //Персонаж находится на плите с дверью?
@@ -135,14 +169,77 @@ public class Dray : MonoBehaviour, IFacingMover, IKeyMaster
                 roomNum = rm;
                 transitionPos = InRoom.DOORS[(doorNum + 2) % 4];
                 roomPos = transitionPos;
-                mode = eMode.transition;
+                lastSafeLoc = transform.position;
+                lastSafeFacing = facing;
+                mode = EMode.transition;
                 transitionDone = Time.time + transitionDelay;
             }
         }
     }
+    private void OnCollisionEnter(Collision coll)
+    {
+        if (invincible) return;//Выйти, если Дрей пока неуязвим
+        DamageEffect dEf = coll.gameObject.GetComponent<DamageEffect>();
+        if (dEf == null) return;//Если компонент DamageEffect отсуствут  - выйти
+
+        Health -= dEf.Damage;//Вычесть величину ущерба из уровня здоровья
+        invincible = true;//Сделать Дрея неуязвимым
+        invincibleDone = Time.time + invincibleDuration;
+
+        if (dEf.Knockback)//Выполнить отбрасывание
+        { //Определить направление отбрасывания
+            Vector3 delta = transform.position = coll.transform.position;
+            if (Mathf.Abs(delta.x) >= Mathf.Abs(delta.y))
+            {
+                //Отбрасывание по горизонтали
+                delta.x = (delta.x > 0) ? 1 : -1;
+                delta.y = 0;
+            }
+            else
+            {
+                delta.x = 0;
+                delta.y = (delta.y > 0) ? 1 : -1;
+            }
+            //Применить скорость оскока к компоненту Rigidbody
+            knockbackVel = delta * knockbackSpeed;
+            rigid.velocity = knockbackVel;
+            //Установить режим knockback и время прекращения отбрасывания
+            mode = EMode.knockback;
+            knockbackDone = Time.time + knockbackDuration;
+
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        PickUp pup = other.GetComponent<PickUp>();
+        if (pup == null) return;
+        switch (pup.ItemType)
+        {
+            case PickUp.EType.health:
+                Health = Mathf.Min(Health + 2, maxHealth);
+                break;
+            case PickUp.EType.key:
+                keyCount++;
+                break;
+            case PickUp.EType.grappler:
+                hasGrappler = true;
+                break;
+        }
+        Destroy(other.gameObject);
+    }
+    public void ResetInRoom(int healthLoss = 0)
+    {
+        transform.position = lastSafeLoc;
+        facing = lastSafeFacing;
+        Health -= healthLoss;
+
+        invincible = true;//Сделать Дрея неуязвимым
+        invincibleDone = Time.time + invincibleDuration;
+    }
+
     //Реализация интерфейса IFacingMover
     public int GetFacing() => facing;
-    public bool moving => (mode == eMode.move);
+    public bool moving => (mode == EMode.move);
     public float GetSpeed() => speed;
     public float gridMult => inRm.GridMult;
     public Vector2 roomPos
